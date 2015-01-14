@@ -1,5 +1,9 @@
+package cw3;
+
 public class LinkedList implements List{
-	
+	private static final int EMPTY_STRUCTURE = 1;
+	private static final int INDEX_OUT_OF_BOUNDS = 2;
+	private static final int INVALID_ARGUMENT = 3; 
 	private ReturnObjectImpl entryPoint = null;
 	private static int size = 0;
 	
@@ -23,40 +27,107 @@ public class LinkedList implements List{
 		int counter = 0;
 		ReturnObjectImpl p = entryPoint;
 		if(isEmpty()) {
-			return createErrorObject(1);
-		}else if(!(0 < index && index < size)) {
-			return createErrorObject(2);
+			return createErrorObject(EMPTY_STRUCTURE);
+		}else if(!(0 <= index && index < size)) {
+			return createErrorObject(INDEX_OUT_OF_BOUNDS);
 		}else{
 			while(index != counter) {
-				p = (ReturnObjectImpl) p.getNext();
+				p = p.getNext();
+				counter++;
 			}
 			return p;
 		}
 	}
 	
-	@Override  // NOT READY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	@Override
 	public ReturnObject remove(int index) {
-		return new ReturnObjectImpl();
+		ReturnObjectImpl p;
+		ReturnObjectImpl result; 
+		
+		if(isEmpty()){
+			return createErrorObject(EMPTY_STRUCTURE);
+		}else if(index == 0){
+			p = entryPoint;
+			entryPoint = p.getNext();
+			size--;
+			return p;
+		}else if(index == size - 1) {
+			int counter = 0;
+			p = entryPoint;
+			while(counter != size - 2) {
+				p = p.getNext();
+				counter++;
+			}
+			result = p;
+			p.setNext(null);
+			size--;
+			return result;
+		}else if(0 < index && index < size - 2) {
+			int counter = 0;
+			p = entryPoint;
+			result = null;
+			while(counter != index - 1) {
+				p = p.getNext();
+				counter++;
+			}
+			result = p.getNext();
+			p.setNext(p.getNext().getNext());
+			size--;
+			return result; 
+		}else{
+			return createErrorObject(INDEX_OUT_OF_BOUNDS);
+		}
 	}
 
-	@Override  // NOT READY!!!!!!!!!!!!!!!!!!!!!!!!!
+	@Override
 	public ReturnObject add(int index, Object item) {
-		return new ReturnObjectImpl();	
+		if(item == null){
+			return createErrorObject(INVALID_ARGUMENT);
+		}else if(isEmpty() && index != 0) {
+			return createErrorObject(EMPTY_STRUCTURE);
+		}else if(index == 0 && isEmpty()){
+			entryPoint = new ReturnObjectImpl(item);
+			size++;
+			return new ReturnObjectImpl();	
+		}else if(index == 0 && !isEmpty()) {
+			ReturnObjectImpl p = entryPoint;
+			entryPoint = new ReturnObjectImpl(item);
+			entryPoint.setNext(p);
+			return new ReturnObjectImpl();
+		}else if(!(0 <= index && index <= size)) {
+			return createErrorObject(INDEX_OUT_OF_BOUNDS);
+		}else if(index == size) {
+			return add(item);
+		}else{
+			int counter = 1;
+			ReturnObjectImpl p = entryPoint;
+			while(counter != index) {
+				p = p.getNext();
+				counter++;
+			}
+			ReturnObjectImpl newObj = new ReturnObjectImpl(item);
+			newObj.setNext(p.getNext());
+			p.setNext(newObj);
+			size++;
+			return new ReturnObjectImpl();
+		}	
 	}
 	
 	@Override 
 	public ReturnObject add(Object item) {
-		if(isEmpty()) {
+		 if(item == null){
+			return createErrorObject(INVALID_ARGUMENT);
+		 }else if(isEmpty()) {
 			entryPoint = new ReturnObjectImpl(item);
+			size++;
 			return new ReturnObjectImpl();
-		}else if(item == null){
-			return createErrorObject(3);
 		}else{
 			ReturnObjectImpl p = entryPoint;
 			while(p.getNext() != null) {
 				p = p.getNext();
 			}	
 			p.setNext(new ReturnObjectImpl(item));
+			size++;
 			return new ReturnObjectImpl();
 		}	
 	}
@@ -71,10 +142,12 @@ public class LinkedList implements List{
 	public String toString() {
 		String result = "";
 		if(isEmpty()){
-			result = result + createErrorObject(1).getReturnValue();
+			result = result + createErrorObject(EMPTY_STRUCTURE).getReturnValue();
 		}else{
 			ReturnObjectImpl p = entryPoint;
+			result = "" + p.getReturnValue();
 			while(p.getNext() != null) {
+				p = p.getNext();
 				result = result + " " + p.getReturnValue();
 			}
 		}
