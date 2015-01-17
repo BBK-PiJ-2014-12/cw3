@@ -30,7 +30,7 @@ public class ArrayList implements List{
 	public ReturnObject get(int index) {
 		if(isEmpty()) {
 			return errObj.createErrorObject(EMPTY_STRUCTURE);
-		}else if(0 <= index && index < lastElement) {
+		}else if(0 <= index && index <= lastElement) {
 			return arrayList[index];
 		}else{
 			return errObj.createErrorObject(INDEX_OUT_OF_BOUNDS);
@@ -38,10 +38,16 @@ public class ArrayList implements List{
 	}
 
 	public ReturnObject remove(int index) {
-		if(index < 0 || lastElement < index) {
+		ReturnObjectImpl result = arrayList[index];
+		
+		if(isEmpty()){
+			return errObj.createErrorObject(EMPTY_STRUCTURE);
+		}else if(index < 0 || lastElement < index) {
 			return errObj.createErrorObject(INDEX_OUT_OF_BOUNDS);
+		}else if(index == 0 && size() == 1) {
+			arrayList[0] = null;
+			return result;
 		}else{
-			ReturnObjectImpl result = arrayList[index];
 			if(index != lastElement) {
 				for(int i = index; i <= lastElement; i++) {
 					arrayList[i] = arrayList[i + 1]; 
