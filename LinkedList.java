@@ -4,7 +4,7 @@ public class LinkedList implements List{
 	private static final int INDEX_OUT_OF_BOUNDS = 2;
 	private static final int INVALID_ARGUMENT = 3; 
 	private ReturnObjectImpl entryPoint = null;
-	private static int size = 0;
+	private int size = 0;
 	
 	ErrorObject errObj = new ErrorObject();
 	
@@ -63,7 +63,7 @@ public class LinkedList implements List{
 			p.setNext(null);
 			size--;
 			return result;
-		}else if(0 < index && index < size - 2) {
+		}else if(0 < index && index < size - 1) {
 			int counter = 0;
 			p = entryPoint;
 			result = null;
@@ -133,13 +133,6 @@ public class LinkedList implements List{
 		}	
 	}
 	
-	/*private ReturnObject createErrorObject(int errorNumber) {
-		ReturnObjectImpl errMes = new ReturnObjectImpl("");
-		errMes.setErrorNum(errorNumber);
-		errMes.setItem(errMes.getError());
-		return errMes;	
-	}*/
-	
 	public String toString() {
 		String result = "";
 		if(isEmpty()){
@@ -149,7 +142,7 @@ public class LinkedList implements List{
 			result = "" + p.getReturnValue();
 			while(p.getNext() != null) {
 				p = p.getNext();
-				result = result + " " + p.getReturnValue();
+				result = result + ", " + p.getReturnValue();
 			}
 		}
 		return result; 
