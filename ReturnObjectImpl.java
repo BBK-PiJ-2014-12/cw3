@@ -1,8 +1,9 @@
+
 public class ReturnObjectImpl implements ReturnObject {
-	private int index;
 	private Object item = null;
 	private ReturnObjectImpl nextObject = null; 
 	private int errorNum = 0;
+
 	
 	public ReturnObjectImpl(Object item) {
 		this.item = item;
