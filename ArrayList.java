@@ -1,18 +1,10 @@
 
 public class ArrayList implements List{
-	private static final int EMPTY_STRUCTURE = 1;
-	private static final int INDEX_OUT_OF_BOUNDS = 2;
-	private static final int INVALID_ARGUMENT = 3;
-	private int Storage = 3;
+	private int Storage = 10;
 	private int lastElement = 0;
 	private ReturnObjectImpl[] arrayList = new ReturnObjectImpl[Storage];
 	
-	ErrorObject errObj = new ErrorObject();
-	
-	public int getLastElement() {
-		return lastElement;
-	}
-	
+	@Override
 	public boolean isEmpty() {
 		if(arrayList[0] == null) {
 			return true;
@@ -20,30 +12,53 @@ public class ArrayList implements List{
 			return false;
 		}
 	}
+	
+	/**
+	 * Returns the current size of the array containing the list
+	 * 
+	 * @return the current size of the array
+	 */
 	public int getStorage() {
 		return arrayList.length;
 	}
+	
+	/**
+	 * Returns the current size of the list containing the list
+	 * 
+	 * @return the current size of the list
+	 */
 	public int size() {
 		return lastElement + 1;
 	}
-
+	
+	/**
+	 * Returns lastElement which is a pointer to indicate the end of the list in the array. 
+	 * 
+	 * @return lastElement
+	 */
+	public int getLastElement() {
+		return lastElement;
+	}
+	
+	@Override
 	public ReturnObject get(int index) {
 		if(isEmpty()) {
-			return errObj.createErrorObject(EMPTY_STRUCTURE);
+			return new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
 		}else if(0 <= index && index <= lastElement) {
 			return arrayList[index];
 		}else{
-			return errObj.createErrorObject(INDEX_OUT_OF_BOUNDS);
+			return new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
 		}
 	}
 
+	@Override
 	public ReturnObject remove(int index) {
 		ReturnObjectImpl result = arrayList[index];
 		
 		if(isEmpty()){
-			return errObj.createErrorObject(EMPTY_STRUCTURE);
+			return new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
 		}else if(index < 0 || lastElement < index) {
-			return errObj.createErrorObject(INDEX_OUT_OF_BOUNDS);
+			return new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
 		}else if(index == 0 && size() == 1) {
 			arrayList[0] = null;
 			return result;
@@ -61,11 +76,12 @@ public class ArrayList implements List{
 		}
 	}
 	
+	@Override
 	public ReturnObject add(int index, Object item) {
 		if(index < 0 || lastElement + 1 < index) {
-			return errObj.createErrorObject(INDEX_OUT_OF_BOUNDS);
+			return new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
 		}else if(item == null){
-			return errObj.createErrorObject(INVALID_ARGUMENT);
+			return new ReturnObjectImpl(ErrorMessage.INVALID_ARGUMENT);
 		}else{
 			ReturnObjectImpl newItem = new ReturnObjectImpl(item);
 			
@@ -87,9 +103,10 @@ public class ArrayList implements List{
 		}
 	}
 
+	@Override
 	public ReturnObject add(Object item) {
 		if(item == null){
-			return errObj.createErrorObject(INVALID_ARGUMENT);
+			return new ReturnObjectImpl(ErrorMessage.INVALID_ARGUMENT);
 		}else{
 			ReturnObjectImpl newItem = new ReturnObjectImpl(item);
 			
@@ -105,7 +122,12 @@ public class ArrayList implements List{
 		}
 	}
 	
-	public void expandArray() {
+	/**
+	 * When the current array holding the list gets full the expandArray method is called.
+	 * It creates a new array with the double of the size of the current array.
+	 * All items are copied into the new array from the old in order. 
+	 */
+	private void expandArray() {
 		ReturnObjectImpl[] tempArray = new ReturnObjectImpl[Storage * 2];
 		for(int i = 0; i < Storage; i++) {
 			tempArray[i] = arrayList[i];
@@ -114,7 +136,12 @@ public class ArrayList implements List{
 		Storage = Storage * 2;
 	}
 	
-	public void collapseArray() {
+	/**
+	 * If as many elements of the list is removed that the list uses only the half of the current array 
+	 * a new array is created with the half of the size of the current array. 
+	 * All items are copied int the new array from the old in order. 
+	 */
+	private void collapseArray() {
 		ReturnObjectImpl[] tempArray = new ReturnObjectImpl[Storage / 2];
 		for(int i = 0; i < Storage/2; i++) {
 			tempArray[i] = arrayList[i];
@@ -123,13 +150,15 @@ public class ArrayList implements List{
 		Storage = Storage / 2;		
 	}
 	
+	@Override
 	public String toString() {
 		String result = "";
 		if(isEmpty()){
-			result = result + errObj.createErrorObject(EMPTY_STRUCTURE).getReturnValue();
+			result = result + new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE).getError();
 		}else{
-			for(int i = 0; i <= lastElement; i++) {
-				result = result + arrayList[i].getReturnValue() + " ";
+			result = "" + arrayList[0].getReturnValue();
+			for(int i = 1; i <= lastElement; i++) {
+				result = result + ", " + arrayList[i].getReturnValue();
 			}
 		}
 		return result; 

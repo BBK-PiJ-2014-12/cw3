@@ -1,12 +1,7 @@
 
-public class LinkedList implements List{
-	private static final int EMPTY_STRUCTURE = 1;
-	private static final int INDEX_OUT_OF_BOUNDS = 2;
-	private static final int INVALID_ARGUMENT = 3; 
+public class LinkedList implements List{ 
 	private ReturnObjectImpl entryPoint = null;
 	private int size = 0;
-	
-	ErrorObject errObj = new ErrorObject();
 	
 	@Override
 	public boolean isEmpty() {
@@ -25,13 +20,13 @@ public class LinkedList implements List{
 	
 	@Override
 	public ReturnObject get(int index) {
-		int counter = 0;
-		ReturnObjectImpl p = entryPoint;
 		if(isEmpty()) {
-			return errObj.createErrorObject(EMPTY_STRUCTURE);
+			return new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
 		}else if(!(0 <= index && index < size)) {
-			return errObj.createErrorObject(INDEX_OUT_OF_BOUNDS);
+			return new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
 		}else{
+			int counter = 0;
+			ReturnObjectImpl p = entryPoint;
 			while(index != counter) {
 				p = p.getNext();
 				counter++;
@@ -46,7 +41,7 @@ public class LinkedList implements List{
 		ReturnObjectImpl result; 
 		
 		if(isEmpty()){
-			return errObj.createErrorObject(EMPTY_STRUCTURE);
+			return new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
 		}else if(index == 0){
 			p = entryPoint;
 			entryPoint = p.getNext();
@@ -76,16 +71,16 @@ public class LinkedList implements List{
 			size--;
 			return result; 
 		}else{
-			return errObj.createErrorObject(INDEX_OUT_OF_BOUNDS);
+			return new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
 		}
 	}
 
 	@Override
 	public ReturnObject add(int index, Object item) {
 		if(item == null){
-			return errObj.createErrorObject(INVALID_ARGUMENT);
+			return new ReturnObjectImpl(ErrorMessage.INVALID_ARGUMENT);
 		}else if(isEmpty() && index != 0) {
-			return errObj.createErrorObject(EMPTY_STRUCTURE);
+			return new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE);
 		}else if(index == 0 && isEmpty()){
 			entryPoint = new ReturnObjectImpl(item);
 			size++;
@@ -96,7 +91,7 @@ public class LinkedList implements List{
 			entryPoint.setNext(p);
 			return new ReturnObjectImpl();
 		}else if(!(0 <= index && index <= size)) {
-			return errObj.createErrorObject(INDEX_OUT_OF_BOUNDS);
+			return new ReturnObjectImpl(ErrorMessage.INDEX_OUT_OF_BOUNDS);
 		}else if(index == size) {
 			return add(item);
 		}else{
@@ -117,7 +112,7 @@ public class LinkedList implements List{
 	@Override 
 	public ReturnObject add(Object item) {
 		 if(item == null){
-			return errObj.createErrorObject(INVALID_ARGUMENT);
+			return new ReturnObjectImpl(ErrorMessage.INVALID_ARGUMENT);
 		 }else if(isEmpty()) {
 			entryPoint = new ReturnObjectImpl(item);
 			size++;
@@ -133,10 +128,11 @@ public class LinkedList implements List{
 		}	
 	}
 	
+	@Override
 	public String toString() {
 		String result = "";
 		if(isEmpty()){
-			result = result + errObj.createErrorObject(EMPTY_STRUCTURE).getReturnValue();
+			result = result + new ReturnObjectImpl(ErrorMessage.EMPTY_STRUCTURE).getError();
 		}else{
 			ReturnObjectImpl p = entryPoint;
 			result = "" + p.getReturnValue();

@@ -54,11 +54,8 @@ public class ImprovedStackImpl implements ImprovedStack{
  	@Override
 	public void remove(Object object) {
  		int endOfList = size();
- 		
 		for(int i = 0; i < endOfList; i++) {
-		System.out.println(object + " i: " + i + ", " + internalList.get(i).getReturnValue()+ ", eOL: " + endOfList);
-			if(internalList.get(i).getReturnValue().equals(object)) {
-				System.out.println(object + " i: " + i + ", " + internalList.get(i).getReturnValue()+ ", eOL: " + endOfList + " <<< ez out");
+				if(internalList.get(i).getReturnValue().equals(object)) {
 				internalList.remove(i);
 				i--;
 				endOfList--;
