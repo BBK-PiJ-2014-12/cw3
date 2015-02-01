@@ -1,4 +1,9 @@
-
+/**
+ * A stack with extra methods to reverse the stack or remove objects other than the top one. 
+ * 
+ * @author Zsolt Balvanyos
+ *
+ */
 public class ImprovedStackImpl implements ImprovedStack{
 	private List internalList;
 		

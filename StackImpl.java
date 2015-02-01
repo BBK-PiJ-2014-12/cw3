@@ -1,4 +1,9 @@
-
+/**
+ * Implementation of the Stack interface. 
+ * 
+ * @author Zsolt Balvanyos
+ *
+ */
 public class StackImpl extends AbstractStack {
 	
 	public StackImpl(List list) {

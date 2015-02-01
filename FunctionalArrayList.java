@@ -1,4 +1,9 @@
-
+/**
+ * An array list of ReturnObjects with methods to return the head or the tail. 
+ * 
+ * @author Zsolt Balvanyos
+ *
+ */
 public class FunctionalArrayList extends ArrayList implements FunctionalList{
 	@Override
     public ReturnObject head() {

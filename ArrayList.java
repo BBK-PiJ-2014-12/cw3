@@ -1,4 +1,9 @@
-
+/**
+ * A array list of ReturnObjects. 
+ * 
+ * @author Zsolt Balvanyos
+ *
+ */
 public class ArrayList implements List{
 	private int Storage = 10;
 	private int lastElement = 0;

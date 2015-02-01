@@ -1,4 +1,9 @@
-
+/**
+ * A list with the sample method that return every second object in a new list. 
+ * 
+ * @author Zsolt Balvanyos
+ *
+ */
 public class SampleableListImpl extends LinkedList implements SampleableList {
 	@Override
 	public SampleableList sample() {

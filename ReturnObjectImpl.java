@@ -1,4 +1,10 @@
-
+/**
+ * This class is an implementation of the ReturnObject interface.
+ * It can hold an error message or any object except null. 
+ * 
+ * @author Zsolt Balvanyos
+ *
+ */
 public class ReturnObjectImpl implements ReturnObject {
 	private Object item = null;
 	private ReturnObjectImpl nextObject = null; 

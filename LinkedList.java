@@ -1,4 +1,9 @@
-
+/**
+ * A linked list of ReturnObjects. 
+ * 
+ * @author Zsolt Balvanyos
+ *
+ */
 public class LinkedList implements List{ 
 	private ReturnObjectImpl entryPoint = null;
 	private int size = 0;

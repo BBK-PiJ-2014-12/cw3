@@ -1,4 +1,9 @@
-
+/**
+ * A linked list of ReturnObjects with methods to return the head or the tail. 
+ * 
+ * @author Zsolt Balvanyos
+ *
+ */
 public class FunctionalLinkedList extends LinkedList implements FunctionalList{
     @Override
 	public ReturnObject head() {
